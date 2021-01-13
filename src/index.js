@@ -5,21 +5,11 @@ import "./index.css";
 
 
 function Square(props) {
-    /*
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: null,
-        };
-    }
-    */
-
     return (
         <button
             className="square"
             onClick={props.onClick}>
-
-            {this.props.value}
+            {props.value}
         </button>
     );
 
@@ -34,10 +24,13 @@ class Board extends React.Component {
         };
     }
 
-    handleclick(i) {
+    handleClick(i) {
         const squares = this.state.squares.slice();
-        square[i] = this.state.xIsNext ? 'X' : 'O';
-        this.setState({ squares: squares, xIsNext: !xIsNext });
+        if (calculateWinner(squares) || squares[i]) {
+            return;
+        }
+        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        this.setState({ squares: squares, xIsNext: !this.state.xIsNext });
     }
 
     renderSquare(i) {
@@ -49,7 +42,13 @@ class Board extends React.Component {
 
 
     render() {
-        const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        const winner = calculateWinner(this.state.squares);
+        let status;
+        if (winner) {
+            status = "Winner: " + winner;
+        } else {
+            status = "Next player: " + (this.state.xIsNext ? "X" : "O");
+        }
 
         return (
             <div>
@@ -82,10 +81,10 @@ class Game extends React.Component {
                     <Board />
                 </div>
                 <div className="game-info">
-                    <div>{/* status */}</div>
-                    <ol>{/* TODO */}</ol>
-                </div>
-            </div>
+                    <div>{ }</div >
+                    <ol>{ }</ol>
+                </div >
+            </div >
         );
     }
 }
@@ -116,3 +115,6 @@ function calculateWinner(squares) {
     }
     return null;
 }
+
+
+
